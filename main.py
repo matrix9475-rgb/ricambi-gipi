@@ -2,6 +2,31 @@ import flet as ft
 import sqlite3
 import urllib.parse
 import webbrowser
+import os
+import shutil
+import sys
+
+# Funzione per gestire il database su Android
+def get_db_path():
+    # Se siamo su Android, il sistema operativo lo segnala
+    if sys.platform == "android" or "ANDROID_ARGUMENT" in os.environ:
+        # Percorso dove l'app ha i permessi di scrittura
+        db_path = os.path.join(os.getenv("FLET_APP_STORAGE_DATA", "."), "ricambi.db")
+        # Se il database non esiste ancora, copialo dalle risorse dell'APK
+        if not os.path.exists(db_path):
+            try:
+                # Su Android, i file inclusi sono in "assets"
+                shutil.copyfile("assets/ricambi.db", db_path)
+            except Exception as e:
+                print(f"Errore copia DB: {e}")
+        return db_path
+    return "ricambi.db"
+
+# Usa il percorso corretto per il database
+DB_NAME = get_db_path()
+
+def esegui_query(query, params=()):
+    conn = sqlite3.connect(DB_NAME)
 
 DB_NAME = "ricambi.db"
 
