@@ -3,4 +3,14 @@ name = "ricambi-gipi"
 version = "1.0.0"
 description = "Gestione ricambi Attrezzature Gi.Pi."
 requires-python = ">=3.9"
-dependencies = ["flet"]
+dependencies = [
+    "flet==0.28.3"
+]
+
+[tool.flet]
+org = "com.gipi"
+product = "Ricambi Gi.Pi."
+company = "Gi.Pi."
+copyright = "Copyright (C) 2026 Gi.Pi."
+# Questa riga dice a Flet di includere la cartella assets nell'APK
+assets = ["assets"]
