@@ -1,0 +1,19 @@
+name: Build APK
+on: [push, workflow_dispatch]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: flet-dev/flet-build-action@v1
+        id: build
+        with:
+          target: apk
+          runner-python-version: "3.12"
+          bundled-python-version: "3.12"
+          build-number: ${{ github.run_number }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ricambi-apk
+          path: ${{ steps.build.outputs.archive-path }}
+          if-no-files-found: error
